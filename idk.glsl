@@ -13,10 +13,18 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord) {
     uv -= 0.5; // remaps uv from 0 <> 1.0 to -0.5 <> -0.5
     uv.x *= iResolution.x/iResolution.y;
 
-    float c  = Circle(uv, vec2(.0 + .0), 0.4, 0.1);
+    vec3 col = vec3(0.0);
 
-    c -= Circle(uv, vec2(.1, 0.1), .075, .005);
-    c -= Circle(uv, vec2(-.1, 0.1), 0.075, .005);
+    float mask  = Circle(uv, vec2(.0 + .0), 0.4, 0.002);
 
-    fragColor = vec4(vec3(c), 1.0);  
+    mask -= Circle(uv, vec2(.1, 0.2), .075, .002);
+    mask -= Circle(uv, vec2(-.1, 0.23), 0.075, .002);
+
+    float mouth = Circle(uv, vec2(.0 + .0), 0.3, 0.002);
+    mouth -= Circle(uv, vec2(.0,  .1), 0.3, 0.002);
+    
+    mask -= mouth;
+    //col = vec3(mouth);
+    col = vec3(1.,1.,0)*mask;
+    fragColor = vec4(col, 1.0);  
 }
