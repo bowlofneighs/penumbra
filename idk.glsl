@@ -4,7 +4,19 @@ float Circle(vec2 uv, vec2 p, float r, float blur){
 
     return c;
 }
+ float Band(float t, float start, float end, float blur) {
+    float step1 = smoothstep(start - blur, start + blur, t);
+    float step2 = smoothstep(end + blur, end - blur, t);
+    
+    return step1 * step2;
+ 
+ }
+ float Rect(vec2 uv, float left, float right, float bottom, float top, float blur){
+     float band1 = Band(uv.x, left, right, blur);
+     float band2 = Band(uv.y, bottom, top, blur);
 
+     return band2 * band1;
+ }
 
 float Smiley(vec2 uv, vec2 p, float size) {
     uv -= p;
@@ -31,9 +43,11 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord) {
 
     vec3 col = vec3(0.0);
 
-   float mask = Smiley(uv, vec2(0.0), 1.);
+   float mask = 0.;
    //Smiley(uv, vec2(0.), 1.);
 
-    col = vec3(1.,1.,0)*mask;
+   mask = Rect( uv, -.2, .2, -.3, .3, .001);
+
+    col = vec3(1.,1.,1.)*mask;
     fragColor = vec4(col, 1.0);  
 }
