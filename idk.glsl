@@ -31,7 +31,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord) {
 
     vec3 col = vec3(0.0);
 
-   float mask = 0.;
+   float mask = Smiley(uv, vec2(0.0), 1.);
    //Smiley(uv, vec2(0.), 1.);
 
     col = vec3(1.,1.,0)*mask;
